@@ -1,0 +1,52 @@
+name: tola
+description: A mobile application that can be used to book bus tickets.
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.2.2 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+
+  cupertino_icons: ^0.1.2
+  font_awesome_flutter: ^8.5.0
+  cloud_firestore: ^0.13.0+1
+  provider: ^4.0.2
+  states_rebuilder: ^1.12.1
+  table_calendar: ^2.2.2
+  intl: ^0.16.1
+  expandable: ^4.1.2
+  flare_flutter: ^2.0.1
+
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+
+flutter:
+
+
+  uses-material-design: true
+
+  assets:
+    - assets/animations/tola_loading.flr
+
+  fonts:
+    - family: TolaBustSeat
+      fonts:
+        - asset: assets/fonts/TolaBustSeat.ttf
+
+
+
+    - family: InterUI
+      fonts:
+        - asset: assets/fonts/Inter-Regular.ttf
+        - asset: assets/fonts/Inter-Medium.ttf
+        - asset: assets/fonts/Inter-SemiBold.ttf
+        - asset: assets/fonts/Inter-Bold.ttf
+        - asset: assets/fonts/Inter-Thin.ttf
+        - asset: assets/fonts/Inter-ExtraBold.ttf

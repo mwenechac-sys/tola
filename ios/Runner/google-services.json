@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "91834510826",
+    "firebase_url": "https://tola-8f11f.firebaseio.com",
+    "project_id": "tola-8f11f",
+    "storage_bucket": "tola-8f11f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:91834510826:android:aa63302f49074be78b9693",
+        "android_client_info": {
+          "package_name": "com.mwenechac.tola"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "91834510826-q44ebhs0gpthf59v75v406po1a83ubah.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mwenechac.tola",
+            "certificate_hash": "22f02893dc1226ebc70c85eb83fefb1e5b8c3b7a"
+          }
+        },
+        {
+          "client_id": "91834510826-jas29f12aipur4iol3uavgk3okc8codm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAdX8Uvt5rKLT-4S3cDLesCB04y9pY5p0Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "91834510826-jas29f12aipur4iol3uavgk3okc8codm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
