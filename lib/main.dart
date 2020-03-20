@@ -14,10 +14,11 @@ class Tola extends StatelessWidget {
       title: 'Tola',
       theme: ThemeData(
 //        scaffoldBackgroundColor: ,
-        primaryColor: Colors.amber,
+        primaryColor: Colors.deepPurple[400],
         primaryColorDark: Colors.amber[600],
         primaryColorLight: Colors.amber[200],
         fontFamily: 'InterUI',
+        brightness: Brightness.light,
 
         textTheme: TextTheme(
           title: TextStyle(
@@ -69,7 +70,9 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: kScaffoldBgColor,
       appBar: AppBar(
+        elevation: 4.0,
         title: Text(widget.title),
       ),
       body: Center(
@@ -80,15 +83,14 @@ class _HomeScreenState extends State<HomeScreen> {
               minWidth: double.infinity,
               height: 56.0,
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                padding: const EdgeInsets.symmetric(horizontal: 32.0),
                 child: RaisedButton(
-                    elevation: 6.0,
+                    clipBehavior: Clip.antiAlias,
                     child: Text(
                       'Book a ride',
-                      style:
-                          TextStyle(fontSize: 18.0, color: kPrimaryTextColor),
+                      style: TextStyle(fontSize: 18.0, color: Colors.white),
                     ),
-                    color: Colors.white,
+                    color: Colors.deepPurple[400],
                     onPressed: () {
                       Navigator.push(
                           context,

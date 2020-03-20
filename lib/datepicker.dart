@@ -41,15 +41,22 @@ class _DatePickerState extends State<DatePicker> {
         final formatter =
             Injector.getAsReactive<DateFormatter>(context: context);
         return Scaffold(
+          backgroundColor: kScaffoldBgColor,
           appBar: AppBar(
+            brightness: Brightness.light,
             leading: GestureDetector(
-              child: Icon(Icons.close),
+              child: Icon(
+                Icons.close,
+                color: Colors.black,
+              ),
               onTap: () {
                 Navigator.pop(context);
               },
             ),
-            backgroundColor: Colors.white,
-            title: Text('Select date'),
+            title: Text(
+              'Select date',
+              style: TextStyle(color: kPrimaryTextColor),
+            ),
           ),
           body: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

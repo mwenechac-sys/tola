@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:tola/constants.dart';
 
 import 'trip_detail.dart';
@@ -22,51 +23,90 @@ class Trips extends StatefulWidget {
 }
 
 class _TripsState extends State<Trips> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   _dateToTimeStampConverter(String date) {
     var mdate = DateTime.parse('$date');
     Timestamp timestamp = Timestamp.fromDate(mdate);
     return timestamp;
   }
 
-  Future getTrips() async {
-    var firestore = Firestore.instance;
-    QuerySnapshot querySnapshot = await firestore
+  _timeStampToTimeConverter(var timeStamp) {
+    var dateTime = DateTime.parse(timeStamp.toString());
+    var time = DateFormat('HH:mm').format(dateTime);
+    return time;
+  }
+
+  getData() {
+    Stream<QuerySnapshot> stream1 = Firestore.instance
         .collection('trips')
         .where('trip_date',
             isEqualTo: _dateToTimeStampConverter(widget.tripDate))
-        .where('destination_location',
-            arrayContains: widget.destinationLocation)
-        .getDocuments();
+        .where('bus_stops.Lusaka', isEqualTo: true)
+        .where('bus_stops.Kabwe', isEqualTo: true)
+        .snapshots();
 
-    return querySnapshot.documents;
+    return stream1;
   }
 
   @override
   Widget build(BuildContext context) {
     print('trip date: ${widget.tripDate}');
     print('timestamp: ${_dateToTimeStampConverter(widget.tripDate)}');
+    var totalPrice;
     return Scaffold(
+      backgroundColor: kScaffoldBgColor,
       appBar: AppBar(
         title: Text('Trips'),
       ),
       body: Container(
-        child: FutureBuilder(
-          future: getTrips(),
-          builder: (_, snapshot) {
+        child: StreamBuilder<QuerySnapshot>(
+          stream: getData(),
+          builder: (BuildContext context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(
                 child: Text('loading....'),
               );
             } else {
               return ListView.builder(
-                itemCount: snapshot.data.length,
+                itemCount: snapshot.data.documents.length,
                 itemBuilder: (_, index) {
-                  String vendorName = snapshot.data[index].data['vendor'];
-                  var fdate = snapshot.data[index].data['trip_date'];
+                  var route =
+                      '${widget.departureLocation} - ${widget.destinationLocation}';
+
+                  var departureTime = _timeStampToTimeConverter(snapshot
+                      .data
+                      .documents[index]
+                      .data['routes']['$route']['departure_time']
+                      .toDate());
+
+                  var arrivalTime = _timeStampToTimeConverter(snapshot.data
+                      .documents[index].data['routes']['$route']['arrival_time']
+                      .toDate());
+
+                  totalPrice = snapshot.data.documents[index].data['routes']
+                          ['$route']['fare'] *
+                      widget.passengerCount;
+
+                  print(snapshot.data.documents.length);
+                  print(route);
+
+                  var fdate = snapshot.data.documents[index].data['trip_date'];
+                  print('itemcount: ${snapshot.data.documents.length}');
                   print('firestore timestamp: $fdate');
                   return GestureDetector(
-                    onTap: () => _navigateDetailScreen(snapshot.data[index]),
+                    onTap: () => _navigateDetailScreen(
+                        snapshot.data.documents[index], route, totalPrice),
                     child: Card(
+                      color: kScaffoldBgColor,
                       elevation: 3.0,
                       margin: EdgeInsets.all(12.0),
                       child: Column(
@@ -85,7 +125,10 @@ class _TripsState extends State<Trips> {
                                   Flexible(
                                     child: Container(
                                       child: Text(
-                                        vendorName.toUpperCase(),
+                                        snapshot.data.documents[index]
+                                            .data['vendor']
+                                            .toString()
+                                            .toUpperCase(),
                                         style: kCardTextStyleNormal,
                                       ),
                                     ),
@@ -107,14 +150,14 @@ class _TripsState extends State<Trips> {
                                         CrossAxisAlignment.start,
                                     children: <Widget>[
                                       Text(
-                                        'KITWE',
+                                        widget.departureLocation.toUpperCase(),
                                         style: kCardTextStyleNormal,
                                       ),
                                       SizedBox(
                                         height: 2.0,
                                       ),
                                       Text(
-                                        '09:00',
+                                        departureTime.toString().toUpperCase(),
                                         style: kCardTextStyleBold,
                                       ),
                                     ],
@@ -155,29 +198,21 @@ class _TripsState extends State<Trips> {
                                           ],
                                         ),
                                       ),
-                                      SizedBox(
-                                        height: 5.0,
-                                      ),
-                                      Container(
-                                        child: Text(
-                                          '6 hrs 0 mins',
-                                          style: kCardTextStyleNormal,
-                                        ),
-                                      ),
                                     ],
                                   ),
                                   Column(
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                     children: <Widget>[
                                       Text(
-                                        'LUSAKA',
+                                        widget.destinationLocation
+                                            .toUpperCase(),
                                         style: kCardTextStyleNormal,
                                       ),
                                       SizedBox(
                                         height: 2.0,
                                       ),
                                       Text(
-                                        '14:00',
+                                        arrivalTime.toString().toUpperCase(),
                                         style: kCardTextStyleBold,
                                       ),
                                     ],
@@ -197,7 +232,9 @@ class _TripsState extends State<Trips> {
                                     style: kCardTextStyleNormal,
                                   ),
                                   TextSpan(
-                                    text: 'K200',
+                                    text: snapshot.data.documents[index]
+                                        .data['routes']['$route']['fare']
+                                        .toString(),
                                     style: kCardTextStyleBold,
                                   )
                                 ]),
@@ -217,12 +254,14 @@ class _TripsState extends State<Trips> {
     );
   }
 
-  _navigateDetailScreen(DocumentSnapshot trip) {
+  _navigateDetailScreen(DocumentSnapshot trip, String route, int cost) {
     Navigator.push(
         context,
         MaterialPageRoute(
             builder: (context) => TripDetail(
                   documentSnapshot: trip,
+                  route: route,
+                  totalCost: cost,
                 )));
   }
 }

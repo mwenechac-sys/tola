@@ -2,12 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:tola/constants.dart';
 import 'package:tola/datepicker.dart';
 import 'package:tola/screens/departure_city_search.dart';
 import 'package:tola/screens/destination_city_search.dart';
-import 'package:tola/screens/passengers.dart';
+import 'package:tola/screens/passengers_selection.dart';
 import 'package:tola/screens/trip_list.dart';
 
+// ignore: must_be_immutable
 class BookingScreen extends StatefulWidget {
   String fromLocation;
   String toLocation;
@@ -89,10 +91,26 @@ class _BookingScreenState extends State<BookingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.deepPurpleAccent,
+      backgroundColor: Colors.deepPurple[400],
       appBar: AppBar(
+        elevation: 4.0,
+        brightness: Brightness.light,
+        leading: GestureDetector(
+          child: Icon(
+            Icons.arrow_back,
+            color: Colors.black,
+          ),
+          onTap: () {
+            Navigator.pop(context);
+          },
+        ),
         backgroundColor: Colors.white,
-        title: Text('Book'),
+        title: Text(
+          'Book',
+          style: TextStyle(
+            color: kPrimaryTextColor,
+          ),
+        ),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -137,8 +155,12 @@ class _BookingScreenState extends State<BookingScreen> {
                                 onTap: () {
                                   _navigateAndDisplayDepartureTown(context);
                                 },
-                                decoration:
-                                    InputDecoration.collapsed(hintText: 'From'),
+                                decoration: InputDecoration.collapsed(
+                                  hintText: 'From'
+                                      '',
+                                  hintStyle:
+                                      TextStyle(color: kPrimaryTextColor),
+                                ),
                               ),
                             ),
                           ],
@@ -234,8 +256,11 @@ class _BookingScreenState extends State<BookingScreen> {
                                 onTap: () {
                                   _navigateAndDisplayDestinationTown(context);
                                 },
-                                decoration:
-                                    InputDecoration.collapsed(hintText: 'To'),
+                                decoration: InputDecoration.collapsed(
+                                  hintText: 'To',
+                                  hintStyle:
+                                      TextStyle(color: kPrimaryTextColor),
+                                ),
                               ),
                             ),
                           ],
@@ -264,6 +289,7 @@ class _BookingScreenState extends State<BookingScreen> {
                   filled: true,
                   fillColor: Colors.white,
                   hintText: 'For',
+                  hintStyle: TextStyle(color: kPrimaryTextColor),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.0),
                   ),
@@ -287,6 +313,7 @@ class _BookingScreenState extends State<BookingScreen> {
                   filled: true,
                   fillColor: Colors.white,
                   hintText: 'Date',
+                  hintStyle: TextStyle(color: kPrimaryTextColor),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(
                       10.0,

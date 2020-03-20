@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
+import 'package:tola/constants.dart';
 
 class DepartureCitySearch extends StatefulWidget {
   @override
@@ -16,9 +17,13 @@ class _DepartureCitySearchState extends State<DepartureCitySearch> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        backgroundColor: kScaffoldBgColor,
         appBar: AppBar(
           leading: GestureDetector(
-            child: Icon(Icons.close),
+            child: Icon(
+              Icons.close,
+              color: Colors.black,
+            ),
             onTap: () {
               Navigator.pop(context);
             },
@@ -40,6 +45,9 @@ class _DepartureCitySearchState extends State<DepartureCitySearch> {
         ),
         body: Column(
           children: <Widget>[
+            SizedBox(
+              height: 16.0,
+            ),
             Expanded(
               child: StreamBuilder<QuerySnapshot>(
                 stream: citySearchString != "" && citySearchString != null

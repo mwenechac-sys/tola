@@ -11,7 +11,7 @@
 ///      fonts:
 ///       - asset: fonts/TolaBustSeat.ttf
 ///
-/// 
+///
 ///
 import 'package:flutter/widgets.dart';
 
@@ -20,5 +20,6 @@ class TolaBustSeat {
 
   static const _kFontFam = 'TolaBustSeat';
 
-  static const IconData bus_seat = const IconData(0xe800, fontFamily: _kFontFam);
+  static const IconData bus_seat =
+      const IconData(0xe800, fontFamily: _kFontFam);
 }

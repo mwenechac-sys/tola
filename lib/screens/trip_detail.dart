@@ -1,24 +1,43 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:tola/screens/passenger_dtls_form.dart';
 
 import '../constants.dart';
 
 class TripDetail extends StatefulWidget {
   final DocumentSnapshot documentSnapshot;
+  final String route;
+  final int totalCost;
 
-  TripDetail({this.documentSnapshot});
+  TripDetail({this.documentSnapshot, this.route, this.totalCost});
 
   @override
   _TripDetailState createState() => _TripDetailState();
 }
 
+_timeStampToTimeConverter(var timeStamp) {
+  var dateTime = DateTime.parse(timeStamp.toString());
+  var time = DateFormat('HH:mm').format(dateTime);
+  return time;
+}
+
 class _TripDetailState extends State<TripDetail> {
   @override
   Widget build(BuildContext context) {
+    var departureTime = _timeStampToTimeConverter(widget
+        .documentSnapshot.data['routes']['${widget.route}']['departure_time']
+        .toDate());
+
+    var arrivalTime = _timeStampToTimeConverter(widget
+        .documentSnapshot.data['routes']['${widget.route}']['arrival_time']
+        .toDate());
+
+    bool status = widget.documentSnapshot.data['in_transit'];
+    print(status);
     return Scaffold(
+      backgroundColor: kScaffoldBgColor,
       appBar: AppBar(
         title: Text('Trip Details'),
       ),
@@ -35,12 +54,19 @@ class _TripDetailState extends State<TripDetail> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Container(
-                        child: Text('HIGER', style: kCardTextStyleNormal),
+                        child: Text(
+                            widget.documentSnapshot
+                                .data['vehicle']['vehicle_name']
+                                .toString()
+                                .toUpperCase(),
+                            style: kCardTextStyleNormal),
                       ),
                       Flexible(
                         child: Container(
                           child: Text(
-                            'MAZHANDU',
+                            widget.documentSnapshot.data['vendor']
+                                .toString()
+                                .toUpperCase(),
                             style: kCardTextStyleNormal,
                           ),
                         ),
@@ -60,14 +86,16 @@ class _TripDetailState extends State<TripDetail> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            'KITWE',
+                            widget.documentSnapshot.data['departure_location']
+                                .toString()
+                                .toUpperCase(),
                             style: kCardTextStyleNormal,
                           ),
                           SizedBox(
                             height: 2.0,
                           ),
                           Text(
-                            '09:00',
+                            departureTime.toString().toUpperCase(),
                             style: kCardTextStyleBold,
                           ),
                         ],
@@ -107,29 +135,22 @@ class _TripDetailState extends State<TripDetail> {
                               ],
                             ),
                           ),
-                          SizedBox(
-                            height: 5.0,
-                          ),
-                          Container(
-                            child: Text(
-                              '6 hrs 0 mins',
-                              style: kCardTextStyleNormal,
-                            ),
-                          ),
                         ],
                       ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: <Widget>[
                           Text(
-                            'LUSAKA',
+                            widget.documentSnapshot.data['destination_location']
+                                .toString()
+                                .toUpperCase(),
                             style: kCardTextStyleNormal,
                           ),
                           SizedBox(
                             height: 2.0,
                           ),
                           Text(
-                            '14:00',
+                            arrivalTime.toString().toUpperCase(),
                             style: kCardTextStyleBold,
                           ),
                         ],
@@ -149,7 +170,9 @@ class _TripDetailState extends State<TripDetail> {
                         style: kCardTextStyleNormal,
                       ),
                       TextSpan(
-                        text: 'K200',
+                        text: widget.documentSnapshot
+                            .data['routes']['${widget.route}']['fare']
+                            .toString(),
                         style: kCardTextStyleBold,
                       )
                     ]),
@@ -171,7 +194,7 @@ class _TripDetailState extends State<TripDetail> {
                     style: kCardTextStyleNormal,
                   ),
                   Text(
-                    'In-transit',
+                    status ? 'In-Transit' : 'Listed',
                     style: TextStyle(fontWeight: FontWeight.w600),
                   )
                 ],
@@ -183,107 +206,42 @@ class _TripDetailState extends State<TripDetail> {
                 thickness: .2,
                 color: kDividerColor,
               ),
-              SizedBox(
-                height: 10.0,
-              ),
-              ExpandablePanel(
-                header: Text(
-                  'STOPS',
-                  style: kCardTextStyleNormal,
-                ),
-                hasIcon: true,
-                tapBodyToCollapse: true,
-                expanded: Column(
-                  children: <Widget>[
-                    Divider(
-                      thickness: .2,
-                      color: kDividerColor,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text(
-                          'Town',
-                          style: kCardTextStyleNormal,
-                        ),
-                        Icon(
-                          Icons.timer,
-                          color: Colors.amber[800],
-                          size: 20.0,
-                        )
-                      ],
-                    ),
-                    Divider(
-                      thickness: .2,
-                      color: kDividerColor,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text(
-                          'Kabwe',
-                          style: kCardTextStyleNormal,
-                        ),
-                        Text(
-                          '20 '
-                          'minutes',
-                          style: kCardTextStyleNormal,
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      height: 5.0,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text(
-                          'Kapiri Mposhi',
-                          style: kCardTextStyleNormal,
-                        ),
-                        Text(
-                          '15 '
-                          'minutes',
-                          style: kCardTextStyleNormal,
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      height: 5.0,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text(
-                          'Ndola',
-                          style: kCardTextStyleNormal,
-                        ),
-                        Text(
-                          '15 '
-                          'minutes',
-                          style: kCardTextStyleNormal,
-                        )
-                      ],
-                    ),
-                  ],
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    'TOTAL',
+                    style: kCardTextStyleNormal,
+                  ),
+                  Text(
+                    widget.totalCost.toString().toUpperCase(),
+                    style: TextStyle(fontWeight: FontWeight.w600),
+                  )
+                ],
               ),
               SizedBox(
                 height: 48.0,
               ),
-              RaisedButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => PassengerDetails()));
-                },
-                color: Theme.of(context).primaryColor,
-                child: Text(
-                  'BOOK',
-                  style: Theme.of(context).textTheme.button,
+              ButtonTheme(
+                minWidth: double.infinity,
+                height: 56.0,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: RaisedButton(
+                      elevation: 6.0,
+                      child: Text(
+                        'Book',
+                        style: TextStyle(fontSize: 18.0, color: Colors.white),
+                      ),
+                      color: Colors.deepPurple[500],
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => PassengerDetails()));
+                      }),
                 ),
-              )
+              ),
             ],
           ),
         ),
