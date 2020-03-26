@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tola/constants.dart';
 import 'package:tola/models/passenger.dart';
+import 'package:tola/models/seat_model.dart';
 
 class DatabaseService {
   static void createAdultPassenger(
@@ -34,9 +35,14 @@ class DatabaseService {
   }
 
   //method to fetch seats from firestore
-  static Future<CollectionReference> getSeats(String documentTripID) async {
-    CollectionReference seats =
-        tripRef.document(documentTripID).collection('seats');
+  static Future<List<Seat>> getSeats(String documentTripID) async {
+    QuerySnapshot seatsSnaphot = await tripRef
+        .document(documentTripID)
+        .collection('seats').orderBy('seat_number', descending: false)
+        .getDocuments();
+
+    List<Seat> seats =
+    seatsSnaphot.documents.map((doc) => Seat.fromSnapshot(doc)).toList();
     return seats;
   }
 }

@@ -5,7 +5,7 @@ class Seat {
   bool isSelected;
   bool isReserved;
   bool isBooked;
-  String seatNumber;
+  int seatNumber;
   String passengerName;
   String passengerID;
   String tripID;
@@ -24,7 +24,7 @@ class Seat {
     Map data = documentSnapshot.data;
     isAvailable = data['status']['available'];
     isReserved = data['status']['reserved'];
-    isBooked = data['status']['booked'];
+    isBooked = data['status']['booked'] ?? false;
     seatNumber = data['seat_number'];
     passengerName = data['passenger_name'];
   }

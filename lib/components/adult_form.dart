@@ -1,5 +1,5 @@
-import 'package:dropdown_formfield/dropdown_formfield.dart';
 import 'package:flutter/material.dart';
+import 'package:tola/components/drop_down_form_field.dart';
 import 'package:tola/components/text_form.dart';
 import 'package:tola/models/passenger.dart';
 
@@ -46,7 +46,7 @@ class _AdultUserFormState extends State<AdultUserForm> {
                 actions: <Widget>[],
               ),
               SizedBox(height: 20.0),
-              DropDownFormField(
+              CustomDropDownFormField(
                 hintText: 'Title',
                 value: _title,
                 onSaved: (value) {

@@ -67,10 +67,7 @@ class AdultPassengerItem implements PassengerListItem {
 }
 
 class ChildrenPassengerItem implements PassengerListItem {
-//  ChildrenPassengerItem._instantiate();
-//
-//  static final ChildrenPassengerItem instance =
-//      ChildrenPassengerItem._instantiate();
+
   String passengerId;
   String firstName;
   String lastName;
@@ -133,10 +130,7 @@ class ChildrenPassengerItem implements PassengerListItem {
 }
 
 class InfantPassengerItem implements PassengerListItem {
-//  InfantPassengerItem._instantiate();
-//
-//  static final InfantPassengerItem instance =
-//      InfantPassengerItem._instantiate();
+
   String passengerId;
   String firstName;
   String lastName;

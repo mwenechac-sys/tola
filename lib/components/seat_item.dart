@@ -13,6 +13,8 @@ class SeatItem extends StatefulWidget {
   final Color bookedSeatColor;
   final Color availableSeatColor;
   final Color unAvailableSeatColor;
+  final Color seatColor;
+  final Color seatNumberColor;
 
   SeatItem(
       {this.key,
@@ -23,7 +25,9 @@ class SeatItem extends StatefulWidget {
       this.reservedSeatColor,
       this.bookedSeatColor,
       this.availableSeatColor,
-      this.unAvailableSeatColor});
+        this.unAvailableSeatColor,
+        this.seatColor,
+        this.seatNumberColor});
 
   @override
   _SeatItemState createState() => _SeatItemState();
@@ -34,41 +38,25 @@ class _SeatItemState extends State<SeatItem> {
 
   @override
   Widget build(BuildContext context) {
-    getColor() {
-      Color color = Colors.grey[300];
-      if (widget.seat.isReserved) {
-        color = Colors.deepPurple[400];
-      } else if (widget.seat.isBooked) {
-        color = Colors.pinkAccent;
-      } else if (isSelected) {
-        color = Colors.green[600];
-      }
-      return color;
-    }
 
     return InkWell(
-      onTap: (widget.seat.isBooked || widget.seat.isReserved)
-          ? null
-          : () {
-              setState(() {
-                isSelected = !isSelected;
-                widget.isSelected(isSelected);
-              });
-            },
+      onTap: () {},
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Icon(
             TolaBustSeat.bus_seat,
-            color: getColor(),
+            color: widget.seatColor,
             size: 48,
           ),
           SizedBox(
             height: 5.0,
           ),
           Text(
-            widget.seatNumber,
-            style: TextStyle(fontWeight: FontWeight.w600),
+            widget.seatNumber.toString(),
+            style: TextStyle(fontWeight: FontWeight.w600,
+                fontSize: 14.0,
+                color: widget.seatNumberColor),
           ),
         ],
       ),

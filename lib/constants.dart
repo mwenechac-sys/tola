@@ -35,3 +35,5 @@ const kSeatIconSize = 48.0;
 //Database constants
 final _firestore = Firestore.instance;
 final tripRef = _firestore.collection('/trips');
+final seatsRef = _firestore.collection('/trips').document().collection(
+    '/seats');
