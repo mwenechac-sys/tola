@@ -31,6 +31,7 @@ flutter:
   uses-material-design: true
 
   assets:
+    - assets/images/
     - assets/animations/tola_loading.flr
 
   fonts:

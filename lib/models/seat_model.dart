@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Seat {
   bool isAvailable;
-  bool isSelected;
+  bool isSelected = false;
   bool isReserved;
   bool isBooked;
   int seatNumber;

@@ -32,8 +32,14 @@ final kCardTextStyleBold = TextStyle(
 
 const kSeatIconSize = 48.0;
 
+//seat colours
+final kAvailableSeatColour = Colors.blue;
+final kReservedSeatColour = Colors.purple[300];
+final kBookedSeatColour = Colors.grey[300];
+final kSelectedSeatColour = Colors.green;
+
 //Database constants
 final _firestore = Firestore.instance;
 final tripRef = _firestore.collection('/trips');
-final seatsRef = _firestore.collection('/trips').document().collection(
-    '/seats');
+final seatsRef =
+_firestore.collection('/trips').document().collection('/seats');
