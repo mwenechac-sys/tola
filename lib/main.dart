@@ -17,7 +17,7 @@ class Tola extends StatelessWidget {
         primaryColor: Colors.deepPurple[400],
         primaryColorDark: Colors.amber[600],
         primaryColorLight: Colors.amber[200],
-        fontFamily: 'InterUI',
+//        fontFamily: 'InterUI',
         brightness: Brightness.light,
 
         textTheme: TextTheme(

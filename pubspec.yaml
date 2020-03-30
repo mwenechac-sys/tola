@@ -48,3 +48,11 @@ flutter:
         - asset: assets/fonts/Inter-Bold.ttf
         - asset: assets/fonts/Inter-Thin.ttf
         - asset: assets/fonts/Inter-ExtraBold.ttf
+
+    - family: OpenSans
+      fonts:
+        - asset: assets/fonts/OpenSans-Regular.ttf
+        - asset: assets/fonts/OpenSans-SemiBold.ttf
+        - asset: assets/fonts/OpenSans-Bold.ttf
+        - asset: assets/fonts/OpenSans-Light.ttf
+        - asset: assets/fonts/OpenSans-ExtraBold.ttf
