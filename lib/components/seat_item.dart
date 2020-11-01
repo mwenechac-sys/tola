@@ -41,8 +41,8 @@ class _SeatItemState extends State<SeatItem> {
 
   @override
   Widget build(BuildContext context) {
-    _getColor() {
-      var color;
+    Color _getColor() {
+      Color color;
       if (widget.seat.isSelected) {
         color = kSelectedSeatColour;
       } else if (widget.seat.isAvailable) {

@@ -21,11 +21,11 @@ class Seat {
       this.tripID});
 
   Seat.fromSnapshot(DocumentSnapshot documentSnapshot) {
-    Map data = documentSnapshot.data;
-    isAvailable = data['status']['available'];
-    isReserved = data['status']['reserved'];
-    isBooked = data['status']['booked'] ?? false;
-    seatNumber = data['seat_number'];
-    passengerName = data['passenger_name'];
+    var data = documentSnapshot.data();
+    isAvailable = data['status']['available'] as bool;
+    isReserved = data['status']['reserved'] as bool;
+    isBooked = (data['status']['booked'] ?? false) as bool;
+    seatNumber = data['seat_number'] as int;
+    passengerName = data['passenger_name'] as String;
   }
 }

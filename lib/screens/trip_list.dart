@@ -45,7 +45,7 @@ class _TripsState extends State<Trips> {
     return time;
   }
 
-  getData() {
+  Stream<QuerySnapshot> getData() {
     Stream<QuerySnapshot> stream1 = Firestore.instance
         .collection('trips')
         .where('trip_date',
@@ -77,34 +77,35 @@ class _TripsState extends State<Trips> {
               );
             } else {
               return ListView.builder(
-                itemCount: snapshot.data.documents.length,
+                itemCount: snapshot.data.docs.length,
                 itemBuilder: (_, index) {
+                  var data = snapshot.data.docs[index].data();
                   var route =
-                      '${widget.departureLocation} - ${widget.destinationLocation}';
+                      '${widget.departureLocation} - ${widget
+                      .destinationLocation}';
 
-                  var departureTime = _timeStampToTimeConverter(snapshot
-                      .data
-                      .documents[index]
-                      .data['routes']['$route']['departure_time']
-                      .toDate());
+                  var departureTime = _timeStampToTimeConverter(
+                      data['routes']['$route']['departure_time']
+                          .toDate());
 
-                  var arrivalTime = _timeStampToTimeConverter(snapshot.data
-                      .documents[index].data['routes']['$route']['arrival_time']
-                      .toDate());
+                  var arrivalTime = _timeStampToTimeConverter(
+                      data['routes']['$route']['arrival_time']
+                          .toDate());
 
-                  totalPrice = snapshot.data.documents[index].data['routes']
-                          ['$route']['fare'] *
-                      widget.passengerCount;
+                  final int totalPrice = data['routes']
+                  ['$route']['fare'] *
+                      widget.passengerCount as int;
 
                   print(snapshot.data.documents.length);
                   print(route);
 
-                  var fdate = snapshot.data.documents[index].data['trip_date'];
+                  var fdate = data['trip_date'];
                   print('itemcount: ${snapshot.data.documents.length}');
                   print('firestore timestamp: $fdate');
                   return GestureDetector(
-                    onTap: () => _navigateDetailScreen(
-                        snapshot.data.documents[index], route, totalPrice),
+                    onTap: () =>
+                        _navigateDetailScreen(
+                            snapshot.data.documents[index], route, totalPrice),
                     child: Card(
                       color: kScaffoldBgColor,
                       elevation: 3.0,
@@ -116,7 +117,7 @@ class _TripsState extends State<Trips> {
                             child: Container(
                               child: Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
                                   Container(
                                     child: Text('HIGER',
@@ -125,8 +126,7 @@ class _TripsState extends State<Trips> {
                                   Flexible(
                                     child: Container(
                                       child: Text(
-                                        snapshot.data.documents[index]
-                                            .data['vendor']
+                                        data['vendor']
                                             .toString()
                                             .toUpperCase(),
                                         style: kCardTextStyleNormal,
@@ -143,11 +143,11 @@ class _TripsState extends State<Trips> {
                               padding: const EdgeInsets.all(8.0),
                               child: Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
                                   Column(
                                     crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    CrossAxisAlignment.start,
                                     children: <Widget>[
                                       Text(
                                         widget.departureLocation.toUpperCase(),
@@ -171,7 +171,7 @@ class _TripsState extends State<Trips> {
                                                     color: Colors.grey[300]))),
                                         child: Row(
                                           crossAxisAlignment:
-                                              CrossAxisAlignment.end,
+                                          CrossAxisAlignment.end,
                                           children: <Widget>[
                                             Icon(
                                               Icons.location_on,
@@ -187,10 +187,10 @@ class _TripsState extends State<Trips> {
                                                 color: Colors.grey[500],
                                               ),
                                             ),
-                                            SizedBox(
+                                            const SizedBox(
                                               width: 48.0,
                                             ),
-                                            Icon(
+                                            const Icon(
                                               Icons.location_on,
                                               size: 18.0,
                                               color: Colors.amber,
@@ -208,7 +208,7 @@ class _TripsState extends State<Trips> {
                                             .toUpperCase(),
                                         style: kCardTextStyleNormal,
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 2.0,
                                       ),
                                       Text(
@@ -232,8 +232,7 @@ class _TripsState extends State<Trips> {
                                     style: kCardTextStyleNormal,
                                   ),
                                   TextSpan(
-                                    text: snapshot.data.documents[index]
-                                        .data['routes']['$route']['fare']
+                                    text: data['routes']['$route']['fare']
                                         .toString(),
                                     style: kCardTextStyleBold,
                                   )

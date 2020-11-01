@@ -2,19 +2,19 @@ import 'package:flutter/material.dart';
 
 class TolaTextFormField extends StatelessWidget {
   final String hintText;
-  final Function validator;
-  final Function onSaved;
+  final FormFieldValidator<String> validator;
+  final FormFieldSetter<String> onSaved;
 
-  TolaTextFormField({this.hintText, this.validator, this.onSaved});
+  const TolaTextFormField({this.hintText, this.validator, this.onSaved});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(0.0),
+      padding: const EdgeInsets.all(0.0),
       child: TextFormField(
         decoration: InputDecoration(
           hintText: hintText,
-          border: OutlineInputBorder(),
+          border: const OutlineInputBorder(),
         ),
         validator: validator,
         onSaved: onSaved,

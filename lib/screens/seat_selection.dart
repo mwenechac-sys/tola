@@ -13,7 +13,7 @@ Iterable<int> getRange(int start, int finish) sync* {
   }
 }
 
-getRowLabels(int n) {
+List getRowLabels(int n) {
   List y = [];
   final numbers = getRange(1, 15);
   for (int val in numbers) {
@@ -44,8 +44,8 @@ class _SeatSelectionState extends State<SeatSelection> {
   List<Seat> _columnFourSeats = [];
 
   //seat colour variables
-  _getColor(Seat seat) {
-    var color;
+  Color _getColor(Seat seat) {
+    Color color;
     if (seat.isAvailable) {
       color = kAvailableSeatColour;
     } else if (seat.isBooked) {
@@ -84,15 +84,13 @@ class _SeatSelectionState extends State<SeatSelection> {
       if (widget.firstColumnLabels.contains(seat.seatNumber))
         {_columnOneSeats.add(seat)}
       else
-        if (widget.secondColumnLabels.contains(seat.seatNumber))
-          {_columnTwoSeats.add(seat)}
-        else
-          if (widget.thirdColumnLabels.contains(seat.seatNumber))
+        if (widget.secondColumnLabels.contains(seat.seatNumber) != null)
+            {_columnTwoSeats.add(seat)}
+          else if (widget.thirdColumnLabels.contains(seat.seatNumber) != null)
             {_columnThreeSeats.add(seat)}
-          else
-            if (widget.fourthColumnLabels.contains(seat.seatNumber))
-              {_columnFourSeats.add(seat)}
-    });
+          else if (widget.fourthColumnLabels.contains(seat.seatNumber) != null)
+            {_columnFourSeats.add(seat)}
+        });
 
     //set last row seats
     List<Seat> lastRowSeats = [

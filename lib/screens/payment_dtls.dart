@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tola/components/bottom_button.dart';
 import 'package:tola/components/text_form.dart';
+import 'package:tola/presentation/components/bottom_button.dart';
 import 'package:tola/screens/booking_verification.dart';
 
 class MomoPaymentDetails extends StatefulWidget {

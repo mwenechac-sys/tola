@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
-import 'package:tola/screens/passenger_dtls_form.dart';
+import 'package:tola/application/booking/booking_bloc.dart';
 
 import '../constants.dart';
 
@@ -26,15 +26,14 @@ _timeStampToTimeConverter(var timeStamp) {
 class _TripDetailState extends State<TripDetail> {
   @override
   Widget build(BuildContext context) {
-    var departureTime = _timeStampToTimeConverter(widget
-        .documentSnapshot.data['routes']['${widget.route}']['departure_time']
-        .toDate());
+    var data = widget.documentSnapshot.data();
+    var departureTime = _timeStampToTimeConverter(
+        data['routes']['${widget.route}']['departure_time'].toDate());
 
-    var arrivalTime = _timeStampToTimeConverter(widget
-        .documentSnapshot.data['routes']['${widget.route}']['arrival_time']
-        .toDate());
+    var arrivalTime = _timeStampToTimeConverter(
+        data['routes']['${widget.route}']['arrival_time'].toDate());
 
-    bool status = widget.documentSnapshot.data['in_transit'];
+    bool status = data['in_transit'] as bool;
     print(status);
     return Scaffold(
       backgroundColor: kScaffoldBgColor,
@@ -54,19 +53,16 @@ class _TripDetailState extends State<TripDetail> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Container(
-                        child: Text(
-                            widget.documentSnapshot
-                                .data['vehicle']['vehicle_name']
-                                .toString()
-                                .toUpperCase(),
+                        child: Text(data['vehicle']['vehicle_name']
+                            .toString()
+                            .toUpperCase(),
                             style: kCardTextStyleNormal),
                       ),
                       Flexible(
                         child: Container(
-                          child: Text(
-                            widget.documentSnapshot.data['vendor']
-                                .toString()
-                                .toUpperCase(),
+                          child: Text(data['vendor']
+                              .toString()
+                              .toUpperCase(),
                             style: kCardTextStyleNormal,
                           ),
                         ),
@@ -85,10 +81,9 @@ class _TripDetailState extends State<TripDetail> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text(
-                            widget.documentSnapshot.data['departure_location']
-                                .toString()
-                                .toUpperCase(),
+                          Text(data['departure_location']
+                              .toString()
+                              .toUpperCase(),
                             style: kCardTextStyleNormal,
                           ),
                           SizedBox(
@@ -140,10 +135,9 @@ class _TripDetailState extends State<TripDetail> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: <Widget>[
-                          Text(
-                            widget.documentSnapshot.data['destination_location']
-                                .toString()
-                                .toUpperCase(),
+                          Text(data['destination_location']
+                              .toString()
+                              .toUpperCase(),
                             style: kCardTextStyleNormal,
                           ),
                           SizedBox(
@@ -170,8 +164,7 @@ class _TripDetailState extends State<TripDetail> {
                         style: kCardTextStyleNormal,
                       ),
                       TextSpan(
-                        text: widget.documentSnapshot
-                            .data['routes']['${widget.route}']['fare']
+                        text: data['routes']['${widget.route}']['fare']
                             .toString(),
                         style: kCardTextStyleBold,
                       )
@@ -235,10 +228,7 @@ class _TripDetailState extends State<TripDetail> {
                       ),
                       color: Colors.deepPurple[500],
                       onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => PassengerDetails()));
+
                       }),
                 ),
               ),

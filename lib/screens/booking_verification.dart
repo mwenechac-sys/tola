@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:tola/components/bottom_button.dart';
 import 'package:tola/constants.dart';
+import 'package:tola/presentation/components/bottom_button.dart';
 
 import '../ticket_screen.dart';
 
